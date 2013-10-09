@@ -1,5 +1,6 @@
 import urllib2
 import re
+import pickle
 
 from BeautifulSoup import BeautifulSoup as soup
 
@@ -11,6 +12,7 @@ CONTENT_STRINGS_TO_REPLACE = [
     (u"\xa0", " "),
     ("  ", " "),
     (" .", "."),
+    (" ,", ","),
     (": :", ": "),
     ("[ ","["),
     (" ]", "]"),
@@ -123,9 +125,24 @@ def parse_episodes(debug=False, search_index=None):
 
     return episodes
 
+def search(episodes, index, string):
+    string = string.lower()
+    for to_replace, replace_with in CONTENT_STRINGS_TO_REPLACE:
+        string = string.replace(to_replace, replace_with)
+
+    locations = sorted(list(index[string]), key=lambda x: "%s_%s" % (x[0], x[1]))
+    results = []
+    for (episode_number, line) in locations:
+        results.append(episodes[episode_number]['transcript'][line])
+    return results
+
 if __name__ == '__main__':
     index = {}
     episodes = parse_episodes(debug=True, search_index=index)
+    episodes_file = open('episodes.bin', 'wb')
+    pickle.dump(episodes, episodes_file)
+    index_file = open('index.bin', 'wb')
+    pickle.dump(index, index_file)
 
     import pdb
     pdb.set_trace()
