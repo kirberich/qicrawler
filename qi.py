@@ -111,11 +111,12 @@ def parse_episode(episode, search_index=None):
             if len(word) < MINIMUM_WORD_LENGTH:
                 continue
 
-            word = word.lower()
-            if word in search_index:
-                search_index[word].add((episode_number, line))
-            else:
-                search_index[word] = set([(episode_number, line)])
+            if search_index:
+                word = word.lower()
+                if word in search_index:
+                    search_index[word].add((episode_number, line))
+                else:
+                    search_index[word] = set([(episode_number, line)])
         line += 1
     return transcript
 
