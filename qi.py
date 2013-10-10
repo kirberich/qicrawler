@@ -4,6 +4,7 @@ import pickle
 
 from BeautifulSoup import BeautifulSoup as soup
 
+MINIMUM_WORD_LENGTH = 4
 TAGS_TO_REPLACE_WITH_CONTENT = ['font', 'div', 'i', 'p']
 TAGS_TO_DELETE = ['script']
 SPEAKERS_TO_REMOVE = ['viewscreens', 'transcript']
@@ -107,6 +108,9 @@ def parse_episode(episode, search_index=None):
         combined = re.sub(r'[^ a-zA-Z0-9]+', '', combined)
         words = combined.split(" ")
         for word in words:
+            if len(word) < MINIMUM_WORD_LENGTH:
+                continue
+
             word = word.lower()
             if word in search_index:
                 search_index[word].add((episode_number, line))
