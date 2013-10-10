@@ -7,17 +7,34 @@ body {
 	text-align: center;
 	padding: 0 10% 20px 10%;
 }
+a {
+	text-decoration: none;
+	color: rgba(50, 50, 80, 0.8);
+}
 
 .quote {
 	margin-top: 40px;
 	font-size: 20pt;
 	line-height: 25pt;
+	display:inline-block;
 }
 
 .another {
 	margin-top: 40px;
 	height: 32px;
 	line-height: 25pt;
+}
+
+.more {
+	color: rgb(200, 200, 200);
+	margin-top: 5px;
+	line-height: 7pt;
+	font-size: 8pt;
+	text-align: right;
+}
+.more a {
+	font-weight: 0.8;
+	color: rgba(0, 0, 0, 0.2);
 }
 
 button, input {

@@ -9,9 +9,13 @@ from django.core.cache import cache
 import _qi as qi
 from core.models import Speaker, Episode, Quote
 
-def main(request):
+def main(request, quote_id=None):
 	to_search = request.GET.get('search') or request.POST.get('search')
-	if to_search:
+	quote = Quote.objects.get(pk=quote_id) if quote_id else None
+
+	if quote:
+		pass
+	elif to_search:
 		search_list = to_search.split(" ")
 		quotes = Quote.objects.all()
 		for term in search_list:
