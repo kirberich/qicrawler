@@ -1,4 +1,4 @@
-quicrawler
+qicrawler
 ==========
 
 Crawls QI episode transcripts
