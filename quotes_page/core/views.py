@@ -10,13 +10,20 @@ import _qi as qi
 from core.models import Speaker, Episode, Quote
 
 def main(request):
-	num_quotes = cache.get('num_quotes')
-	if not num_quotes:
-		num_quotes = Quote.objects.all().count()
-		cache.set('num_quotes', num_quotes, 60*10)
-
-	quote = Quote.objects.all()[random.randint(0, num_quotes)]
-	return render_to_response('main.html', {'quote':quote}, context_instance=RequestContext(request))
+	to_search = request.GET.get('search') or request.POST.get('search')
+	if to_search:
+		search_list = to_search.split(" ")
+		quotes = Quote.objects.all()
+		for term in search_list:
+			quotes = quotes.filter(text__icontains=term)
+		quote = quotes[random.randint(0, len(quotes)-1)] if len(quotes) else None
+	else:
+		num_quotes = cache.get('num_quotes')
+		if not num_quotes:
+			num_quotes = Quote.objects.all().count()
+			cache.set('num_quotes', num_quotes, 60*10)
+		quote = Quote.objects.all()[random.randint(0, num_quotes-1)]
+	return render_to_response('main.html', {'quote':quote, 'to_search': to_search if quote else ""}, context_instance=RequestContext(request))
 
 
 def init(request):

@@ -3,8 +3,27 @@
     <head>
         <meta charset="utf-8">
         <title>QI quotes</title>
+
+        <style type="text/css">
+        {% include 'style.css' %}
+        </style>
     </head>
     <body>
-    {{quote}}
+    <form action="" method="post">
+	    <div class="another">
+	    	<input type="text" name="search" placeholder="search" value="{{to_search|default:""}}"/>
+	    	<button type="submit" id="refresh" href="" tabindex="0">Another!</button>
+	    </div>
+	    <div class="quote">
+	    	{% if quote %}
+	    	{{quote}}
+	    	{% else %}
+	    	<img src="http://robert.g3th.net/qi-notfound.gif" alt="Nothin."/>
+	    	{% endif %}
+	    </div>
+    </form>
+    <script type="text/javascript">
+    	window.onload = function() { document.getElementById('refresh').focus(); }
+    </script>
     </body>
 </html>
