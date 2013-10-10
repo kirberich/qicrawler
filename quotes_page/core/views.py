@@ -11,10 +11,12 @@ from core.models import Speaker, Episode, Quote
 
 def main(request, quote_id=None):
 	to_search = request.GET.get('search') or request.POST.get('search')
-	quote = Quote.objects.get(pk=quote_id) if quote_id else None
 
-	if quote:
-		pass
+	if quote_id:
+		try:
+			quote = Quote.objects.get(pk=quote_id)
+		except:
+			quote = None
 	elif to_search:
 		search_list = to_search.split(" ")
 		quotes = Quote.objects.all()
