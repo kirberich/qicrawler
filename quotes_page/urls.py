@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
-    url(r'^(?P<quote_id>\d+)?$', 'quotes_page.core.views.main', name="main"),
+    url(r'^$', 'quotes_page.core.views.main', name="main"),
+    url(r'^(?P<quote_id>\d+)$', 'quotes_page.core.views.main', name="quote"),
     url(r'^init/?$', 'quotes_page.core.views.init', name="init"),
 )
