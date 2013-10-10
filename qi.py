@@ -3,7 +3,10 @@ import re
 import pickle
 import random
 
-from BeautifulSoup import BeautifulSoup as soup
+try:
+    from BeautifulSoup import BeautifulSoup as soup
+except ImportError:
+    from bs4 import BeautifulSoup as soup
 
 MINIMUM_WORD_LENGTH = 4
 TAGS_TO_REPLACE_WITH_CONTENT = ['font', 'div', 'i', 'p']
@@ -29,8 +32,11 @@ def loop_until(element, until):
     while True:
         result.append(getattr(element, 'text', element))
 
-        if element.nextSibling is None or element.nextSibling == until or hasattr(element.nextSibling, 'name') and until in element.nextSibling:
-            break
+        try:
+            if element.nextSibling is None or element.nextSibling == until or hasattr(element.nextSibling, 'name') and until in element.nextSibling:
+                break
+        except:
+            pass
 
         element = element.nextSibling
     return result
