@@ -10,7 +10,7 @@
 		</style>
 	</head>
 	<body>
-	<form action="/" method="post">
+	<form action="{% url "main" %}" method="post">
 		<div class="another">
 			<input type="text" name="search" placeholder="search" value="{{to_search|default:""}}"/>
 			<button type="submit" id="refresh" href="" tabindex="0">Another!</button>
@@ -23,7 +23,7 @@
 			{% endif %}
 		<div class="more">
 			{% if quote %}
-			<a href="{{quote.pk}}">Permalink</a>
+			<a href="{% url "main" quote_id=quote.pk %}">Permalink</a>
 			{% endif %}
 		</div>
 		</div>
