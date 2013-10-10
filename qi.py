@@ -66,7 +66,6 @@ def parse_episode(episode, search_index=None):
     for tag in TAGS_TO_DELETE:
         [s.extract() for s in content('script')]
 
-
     def bold_finder(tag):
         if not hasattr(tag, 'name'):
             return False
@@ -119,6 +118,7 @@ def parse_episode(episode, search_index=None):
         line += 1
     return transcript
 
+
 def parse_episodes(debug=False, search_index=None):
     episodes = parse_episode_list()
 
@@ -129,10 +129,14 @@ def parse_episodes(debug=False, search_index=None):
 
     return episodes
 
+
 def search(episodes, index, string):
     string = string.lower()
     for to_replace, replace_with in CONTENT_STRINGS_TO_REPLACE:
         string = string.replace(to_replace, replace_with)
+
+    if string not in index:
+        return []
 
     locations = sorted(list(index[string]), key=lambda x: "%s_%s" % (x[0], x[1]))
     results = []
@@ -140,13 +144,37 @@ def search(episodes, index, string):
         results.append(episodes[episode_number]['transcript'][line])
     return results
 
-if __name__ == '__main__':
-    index = {}
-    episodes = parse_episodes(debug=True, search_index=index)
+
+def save(episodes, index):
     episodes_file = open('episodes.bin', 'wb')
     pickle.dump(episodes, episodes_file)
+    episodes_file.close()
+
     index_file = open('index.bin', 'wb')
     pickle.dump(index, index_file)
+    index_file.close()
 
+
+def load():
+    try:
+        episodes_file = open('episodes.bin', 'rb')
+        episodes = pickle.load(episodes_file)
+        episodes_file.close()
+
+        index_file = open('index.bin', 'rb')
+        index = pickle.load(index_file)
+        index_file.close()
+
+        return episodes, index
+    except:
+        return None, None
+
+
+if __name__ == '__main__':
+    episodes, index = load()
+    if not episodes:
+        index = {}
+        episodes = parse_episodes(debug=True, search_index=index)
+        save(episodes, index)
     import pdb
     pdb.set_trace()
