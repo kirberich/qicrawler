@@ -9,7 +9,10 @@ from django.core.cache import cache
 import _qi as qi
 from core.models import Speaker, Episode, Quote
 
-def main(request, quote_id=None):
+def main(request):
+	return quote(request, quote_id=None)
+
+def quote(request, quote_id):
 	to_search = request.GET.get('search') or request.POST.get('search')
 
 	if quote_id:
