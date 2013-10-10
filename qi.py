@@ -1,6 +1,7 @@
 import urllib2
 import re
 import pickle
+import random
 
 from BeautifulSoup import BeautifulSoup as soup
 
@@ -143,6 +144,11 @@ def search(episodes, index, string):
     for (episode_number, line) in locations:
         results.append(episodes[episode_number]['transcript'][line])
     return results
+
+
+def pick(l):
+    """ Pick random element from list """
+    return random.choice(l)
 
 
 def save(episodes, index):
