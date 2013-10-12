@@ -10,23 +10,29 @@
 		</style>
 	</head>
 	<body>
-	<form action="{% url "main" %}" method="post">
+	<form action="/qi/" method="post">
 		<div class="another">
 			<input type="text" name="search" placeholder="search" value="{{to_search|default:""}}"/>
 			<button type="submit" id="refresh" href="" tabindex="0">Another!</button>
 		</div>
+		{% for context in context_before %}
+                	<div class="context-{{forloop.revcounter}}">{{context}}</div>
+                {% endfor %}
 		<div class="quote">
 			{% if quote %}
 			{{quote}}
 			{% else %}
 			<img src="http://robert.g3th.net/qi-notfound.gif" alt="Nothin."/>
 			{% endif %}
-		<div class="more">
-			{% if quote %}
-			<a href="{% url "quote" quote_id=quote.pk %}">Permalink</a>
-			{% endif %}
+			<div class="more">
+				{% if quote %}
+				<a href="/qi/{{quote.pk}}">Permalink</a>
+				{% endif %}
+			</div>
 		</div>
-		</div>
+		{% for context in context_after %}
+                	<div class="context-{{forloop.counter}}">{{context}}</div>
+                {% endfor %}
 	</form>
 	<script type="text/javascript">
 		window.onload = function() { document.getElementById('refresh').focus(); }

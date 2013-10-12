@@ -9,10 +9,7 @@ from django.core.cache import cache
 import _qi as qi
 from core.models import Speaker, Episode, Quote
 
-def main(request):
-	return quote(request, quote_id=None)
-
-def quote(request, quote_id):
+def main(request, quote_id):
 	to_search = request.GET.get('search') or request.POST.get('search')
 
 	if quote_id:
@@ -32,7 +29,17 @@ def quote(request, quote_id):
 			num_quotes = Quote.objects.all().count()
 			cache.set('num_quotes', num_quotes, 60*10)
 		quote = Quote.objects.all()[random.randint(0, num_quotes-1)]
-	return render_to_response('main.html', {'quote':quote, 'to_search': to_search if quote else ""}, context_instance=RequestContext(request))
+        
+        context_before = quote.get_previous(3)
+        context_after = quote.get_next(3)
+
+        subs = {
+            'quote': quote,
+            'to_search': to_search if quote else '',
+            'context_before': context_before,
+            'context_after': context_after
+        }
+	return render_to_response('main.html', subs, context_instance=RequestContext(request))
 
 
 def init(request):
@@ -56,8 +63,10 @@ def init(request):
 			quote = Quote(episode=episode, speaker=speaker, text=text)
 			if previous_quote:
 				quote.previous = previous_quote
+				quote.save()
 				previous_quote.next = quote
 				previous_quote.save()
-			quote.save()
+			else:
+				quote.save()
 			previous_quote = quote
 	return HttpResponse("ok")

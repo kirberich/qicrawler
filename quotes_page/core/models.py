@@ -21,7 +21,28 @@ class Quote(models.Model):
 
 	previous = models.ForeignKey('self', blank=True, null=True, related_name="next_set")
 	next = models.ForeignKey('self', blank=True, null=True, related_name="previous_set")
+	
+	def get_previous(self, limit):
+		results = []
+		item = self.previous
+		item_number = 0
+		while item is not None and item_number < limit:
+			results.append(item)
+			item_number += 1
+			item = item.previous
+		results.reverse()
+		return results
 
+	def get_next(self, limit):
+		results = []
+		item = self.next
+		item_number = 0
+		while item is not None and item_number < limit:
+			results.append(item)
+			item_number += 1
+			item = item.next
+		return results
+	
 	def __repr__(self):
 		return "%s: %s" % (self.speaker, self.text)
 	__unicode__ = __repr__
