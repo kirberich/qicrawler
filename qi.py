@@ -98,6 +98,9 @@ def parse_episode(episode, search_index=None):
 
         # Get person speaking (text of the header), and the remaining text
         speaker = text_with_header[0]
+        for to_replace, replace_with in CONTENT_STRINGS_TO_REPLACE:
+            speaker = speaker.replace(to_replace, replace_with)
+        speaker = speaker.strip()
         text = text_with_header[1:]
 
         # Get rid of some things that show up as speaker even though they shouldn't
@@ -136,6 +139,7 @@ def parse_episodes(debug=False, search_index=None):
             print "Processing episode %s" % episode['description']
         episode['transcript'] = parse_episode(episode, search_index=search_index)
 
+    save(episodes)
     return episodes
 
 
@@ -159,14 +163,14 @@ def pick(l):
     return random.choice(l)
 
 
-def save(episodes, index):
+def save(episodes):#, index):
     episodes_file = open('episodes.bin', 'wb')
     pickle.dump(episodes, episodes_file)
     episodes_file.close()
 
-    index_file = open('index.bin', 'wb')
-    pickle.dump(index, index_file)
-    index_file.close()
+    #index_file = open('index.bin', 'wb')
+    #pickle.dump(index, index_file)
+    #index_file.close()
 
 
 def load():
@@ -175,13 +179,13 @@ def load():
         episodes = pickle.load(episodes_file)
         episodes_file.close()
 
-        index_file = open('index.bin', 'rb')
-        index = pickle.load(index_file)
-        index_file.close()
+        #index_file = open('index.bin', 'rb')
+        #index = pickle.load(index_file)
+        #index_file.close()
 
-        return episodes, index
+        return episodes#, index
     except:
-        return None, None
+        return parse_episodes(debug=True)#, None
 
 
 if __name__ == '__main__':
