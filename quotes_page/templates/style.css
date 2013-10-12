@@ -18,9 +18,12 @@ a {
 	display:inline-block;
 	margin: 10px 0;
 }
+.quote a{
+	color: rgb(50, 50, 50);
+}
 .context-1, .context-2, .context-3 {
 	display: block;
-	opacity: 0.1;
+	opacity: 0.15;
 	font-size: 14pt;
 	margin: 10px auto;
 	max-width: 80%;
@@ -31,7 +34,7 @@ a {
 }
 .context-2 {
 	font-size: 12pt;
-	opacity: 0.05;
+	opacity: 0.08;
 	margin: 5px auto;
 	max-width: 60%;
 }
