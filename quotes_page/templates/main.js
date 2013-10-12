@@ -1,10 +1,9 @@
 quoteCache = {};
 
-$(function() {
-	$("#refresh").focus();
-});
-
 $(document).keyup(function(e){
+	if (e.keyCode == 13) {
+		$("form").submit();
+	}
 	var $quote = $(".quote"),
 		$beforeContext = $quote.prevAll("[class|=context]"),
 		$afterContext = $quote.nextAll("[class|=context]"),
