@@ -22,11 +22,15 @@
 		</div>
 		<div class="quotes">
 		{% for quote in context_before %}
-			{% include 'context.html' with context_count=forloop.revcounter %}
+			{% with context_count=forloop.revcounter %}
+			{% include 'context.html'%}
+			{% endwith %}
 		{% endfor %}
 		{% include 'quote.html' %}
 		{% for quote in context_after %}
-			{% include 'context.html' with context_count=forloop.counter %}
+			{% with with context_count=forloop.counter %}
+			{% include 'context.html' %}
+			{% endwith %}
 		{% endfor %}
 		</div>	
 	</form>
