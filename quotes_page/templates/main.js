@@ -1,7 +1,8 @@
 quoteCache = {};
 
 $(document).keyup(function(e){
-	if (e.keyCode == 13) {
+	$("button").focus();
+	if (e.keyCode == 32) {
 		$("form").submit();
 	}
 	var $quote = $(".quote"),
