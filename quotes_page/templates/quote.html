@@ -1,7 +1,7 @@
 {% if not raw or quote %}
 <div class="{% block quoteclass %}quote{% endblock %}" data-prev="{{quote.previous_id|default:""}}" data-next="{{quote.next_id|default:""}}">
 	{% if quote %}
-	<a href="/qi/{{quote.pk}}"><span title="{{quote.speaker.full_name}}">{{quote.speaker.name}}:</span> {{quote.text}}</a>
+	<a href="/{{quote.pk}}"><span title="{{quote.speaker.full_name}}">{{quote.speaker.name}}:</span> {{quote.text}}</a>
 	{% else %}
 	{% block notfound %}<img src="http://robert.g3th.net/qi-notfound.gif" alt="Nothin."/>{% endblock %}
 	{% endif %}

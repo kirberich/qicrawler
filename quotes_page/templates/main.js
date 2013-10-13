@@ -55,7 +55,7 @@ $(document).keyup(function(e){
 				}
 				return;
 			}
-			$.get('/qi/'+newContextId+'?response=raw', function(data, textStatus, jqXHR) {
+			$.get('/'+newContextId+'?response=raw', function(data, textStatus, jqXHR) {
 				var $el = $(data).attr("class", newContextClass);
 				quoteCache[newContextId] = $el;
 				if (changed == "prev") {
