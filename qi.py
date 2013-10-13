@@ -173,7 +173,7 @@ def save(episodes):#, index):
     #index_file.close()
 
 
-def load():
+def load(debug=False):
     try:
         episodes_file = open('episodes.bin', 'rb')
         episodes = pickle.load(episodes_file)
@@ -185,7 +185,7 @@ def load():
 
         return episodes#, index
     except:
-        return parse_episodes(debug=True)#, None
+        return parse_episodes(debug=debug)#, None
 
 
 if __name__ == '__main__':
