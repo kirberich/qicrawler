@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="stats">
+	{% if episode %}
+	<h1>Episode {{episode}}</h1>
+	<table>
+		{% for quote in episode.quote_set.all %}
+		<tr><td>{{quote}}</td></tr>
+		{% endfor %}
+	</table>
+	{% else %}
+	<h1>Episodes</h1>
+	<table>
+		<tr><th>Episode</th><th>Quotes</th></tr>
+		{% for episode in episodes %}
+		<tr><td><a href="/stats/?episode={{episode.pk}}">{{episode}}</a></td><td>{{episode.quote_set.count}}</td></tr>
+		{% endfor %}
+	</table>
+	{% endif %}
+</div>
+{% endblock %}

@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^(?P<quote_id>\d*)$', 'quotes_page.core.views.main', name="main"),
     url(r'^init/?$', 'quotes_page.core.views.init', name="init"),
+    url(r'^stats/?$', 'quotes_page.core.views.stats', name="stats"),
 )

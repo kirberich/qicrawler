@@ -114,3 +114,7 @@ img {
 	color: rgba(0, 0, 0, 0.2);
 }
 
+.stats {
+	margin: 10px;
+	text-align: left;
+}

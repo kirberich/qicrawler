@@ -87,3 +87,11 @@ def init(request):
     return HttpResponse("ok, added episodes: %s" % added)
 
 
+def stats(request):
+    subs = {
+        'episodes': Episode.objects.all(),
+        'speaker': Speaker.objects.all()
+    }
+    if 'episode' in request.GET:
+        subs['episode'] = Episode.objects.get(pk=request.GET.get('episode'))
+    return render_to_response('stats.html', subs, context_instance=RequestContext(request))
