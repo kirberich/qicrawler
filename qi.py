@@ -9,11 +9,11 @@ except ImportError:
     from bs4 import BeautifulSoup as soup
 
 MINIMUM_WORD_LENGTH = 4
-TAGS_TO_REPLACE_WITH_CONTENT = ['font', 'div', 'i', 'p']
+TAGS_TO_REPLACE_WITH_CONTENT = ['font', 'div', 'i', 'p', 'span']
 TAGS_TO_DELETE = ['script']
 SPEAKERS_TO_REMOVE = ['viewscreens', 'transcript']
 CONTENT_STRINGS_TO_REPLACE = [
-    ("\n", ""),
+    ("\n", " "),
     (u"\xa0", " "),
     ("  ", " "),
     (" .", "."),
