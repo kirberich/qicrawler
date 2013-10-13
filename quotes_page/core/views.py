@@ -50,7 +50,7 @@ def main(request, quote_id):
 
 
 def init(request):
-    episodes = qi.parse_episodes()
+    episodes = qi.load(debug=True)
     for episode_name, episode_dict in episodes.items():
         episode, created = Episode.objects.get_or_create(name=episode_name)
         if created:
