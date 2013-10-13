@@ -13,6 +13,9 @@ class Episode(models.Model):
     name = models.CharField(max_length=10)
     description = models.CharField(max_length=255)
 
+    class Meta:
+        ordering = ('name',)
+
     def speaker_names(self):
         names = ["Stephen Fry", "Alan Davies"]
 
