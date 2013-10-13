@@ -31,15 +31,12 @@ def main(request, quote_id):
             num_quotes = Quote.objects.all().count()
             cache.set('num_quotes', num_quotes, 60*10)
         quote = Quote.objects.all()[random.randint(0, num_quotes-1)]
-        
-    context_before = quote.get_previous(3)
-    context_after = quote.get_next(3)
 
     subs = {
         'quote': quote,
-        'to_search': to_search if quote else '',
-        'context_before': context_before,
-        'context_after': context_after
+        'to_search': to_search if to_search else '',
+        'context_before': quote.get_previous(3) if quote else [],
+        'context_after': quote.get_next(3) if quote else []
     }
 
     if response == 'raw':
