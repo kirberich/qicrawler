@@ -47,18 +47,26 @@ def main(request, quote_id):
 
 
 def init(request):
+    reset = request.GET.get("reset") == "true"
     episodes = qi.load(debug=True)
+    added = []
     for episode_name, episode_dict in episodes.items():
         episode, created = Episode.objects.get_or_create(name=episode_name)
+        # If reset is true, delete existing quotes for existing episode, otherwise ignore existing episodes.
         if created:
             episode.description = episode_dict['description']
             episode.save()
-        else:
+        elif reset:
             episode.quote_set.all().delete()
-        speaker_names = episode.speaker_names()
+        else:
+            print "ignoring episode %s" % episode
+            continue
+
         print episode
         if not 'transcript' in episode_dict:
             continue
+
+        speaker_names = episode.speaker_names()
         number_lines = len(episode_dict['transcript'])
         previous_quote = None
         for line in range(0, number_lines):
@@ -75,4 +83,7 @@ def init(request):
             else:
                 quote.save()
             previous_quote = quote
-    return HttpResponse("ok")
+        added.append(episode)
+    return HttpResponse("ok, added episodes: %s" % added)
+
+
