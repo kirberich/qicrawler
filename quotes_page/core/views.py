@@ -59,13 +59,14 @@ def init(request):
         else:
             episode.quote_set.all().delete()
 
+        speaker_names = episode.speaker_names()
         if not 'transcript' in episode_dict:
             continue
         number_lines = len(episode_dict['transcript'])
         previous_quote = None
         for line in range(0, number_lines):
             speaker_name, text = episode_dict['transcript'][line].split(":", 1)
-            speaker = Speaker.objects.get_or_create(name=speaker_name)[0]
+            speaker = Speaker.objects.get_or_create(name=speaker_name, full_name=episode.full_speaker_name(speaker_name, speaker_names) or "")[0]
 
             quote = Quote(episode=episode, speaker=speaker, text=text)
             if previous_quote:

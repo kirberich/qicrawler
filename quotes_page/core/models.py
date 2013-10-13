@@ -13,6 +13,29 @@ class Episode(models.Model):
     name = models.CharField(max_length=10)
     description = models.CharField(max_length=255)
 
+    def speaker_names(self):
+        names = ["Stephen Fry", "Alan Davies"]
+
+        try: 
+            names_string = self.description.split(" ",1)[1]
+        except IndexError:
+            return []
+
+        names_raw = names_string.split(",")
+        for name_raw in names_raw:
+            names.append(name_raw.strip())
+        return names
+
+    def full_speaker_name(self, speaker_name, speaker_names_list=None):
+        speaker_names_list = speaker_names_list or self.speaker_names()
+        for name in speaker_names_list:
+            if speaker_name in name:
+                return name
+
+    def __repr__(self):
+        return "Episode %s" % self.description
+    __unicode__ = __repr__
+
 
 class Quote(models.Model):
     episode = models.ForeignKey(Episode)
