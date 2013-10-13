@@ -1,7 +1,10 @@
 quoteCache = {};
 
 $(function() {
-	$("[name=search]").focus();
+	$("[name=search]").keyup(function(e){
+		e.stopPropagation();
+	});	
+
 	$(document).keyup(function(e){
 		if (e.keyCode == 32) {
 			$("form").submit();
