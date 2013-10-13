@@ -28,7 +28,7 @@
 		{% endfor %}
 		{% include 'quote.html' %}
 		{% for quote in context_after %}
-			{% with with forloop.counter as context_count %}
+			{% with forloop.counter as context_count %}
 			{% include 'context.html' %}
 			{% endwith %}
 		{% endfor %}
