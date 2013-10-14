@@ -51,7 +51,8 @@ def _quote(request, quote_id):
         'quote': quote,
         'to_search': to_search if to_search else '',
         'context_before': quote.get_previous(3) if quote else [],
-        'context_after': quote.get_next(3) if quote else []
+        'context_after': quote.get_next(3) if quote else [],
+        'forfeit': quote.speaker.name.startswith("Forfeit")
     }
 
     if response == 'raw':

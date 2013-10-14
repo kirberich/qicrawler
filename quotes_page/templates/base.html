@@ -14,7 +14,7 @@
 		{% include 'main.js' %}
 		</script>
 	</head>
-	<body>
+	<body {% if forfeit %}class="forfeit"{% endif %}>
 		{% block body %}{% endblock body %}
 	</body>
 </html>
