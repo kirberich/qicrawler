@@ -5,6 +5,7 @@ html, body {
 body {
 	font-family: Geneva, Tahoma, Verdana, sans-serif;
 	text-align: center;
+	transition: background 0.2s;
 }
 
 form {
@@ -15,17 +16,13 @@ a {
 	text-decoration: none;
 	color: rgba(50, 50, 80, 0.8);
 }
-
-header, footer {
-	background-color: white;
-	color: rgba(100, 100, 100, 0.5);
-}
 header {
 	font-size: 10pt;
 	padding-top: 5px;
 }
 footer {
 	font-size: 8pt;
+	color: rgba(100, 100, 100, 0.5);
 }
 footer span, footer img, footer a {
 	vertical-align: middle;
@@ -81,7 +78,7 @@ img {
 
 .context-1, .context-2, .context-3 {
 	display: block;
-	opacity: 0.15;
+	opacity: 0.2;
 	font-size: 14pt;
 	margin: 10px auto;
 	max-width: 80%;
@@ -93,14 +90,14 @@ img {
 
 .context-2 {
 	font-size: 12pt;
-	opacity: 0.08;
+	opacity: 0.15;
 	margin: 5px auto;
 	max-width: 60%;
 }
 
 .context-3 {
 	font-size: 10pt;
-	opacity: 0.03;
+	opacity: 0.1;
 	margin: 2px auto;
 	max-width: 40%;
 }
@@ -122,6 +119,32 @@ img {
 .more a {
 	font-weight: 0.8;
 	color: rgba(0, 0, 0, 0.2);
+}
+
+@keyframes forfeit-animation
+{
+	0%   {color: white;}
+	50%  {color: black; }
+	100%  {color: white;}
+}
+
+@-webkit-keyframes forfeit-animation
+{
+	0%   {color: white;}
+	50%  {color: black; }
+	100%  {color: white;}
+}
+
+.forfeit {
+	color: white;
+	background: black;
+}
+.forfeit a, .forfeit input, .forfeit button, .forfeit footer{
+	color: white;
+}
+.forfeit .quote a{
+	animation: forfeit-animation 1s linear infinite;
+	-webkit-animation: forfeit-animation 1s linear infinite;
 }
 
 .stats {

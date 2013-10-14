@@ -1,9 +1,18 @@
 quoteCache = {};
 
+function checkForfeit() {
+	if ($('.quote span:contains(Forfeit:)').length) {
+		$("body").addClass("forfeit");
+	} else {
+		$("body").removeClass("forfeit");
+	}
+}
+
 $(function() {
 	$("[name=search]").keyup(function(e){
 		e.stopPropagation();
 	});	
+	checkForfeit();
 
 	$(document).keyup(function(e){
 		if (e.keyCode == 32) {
@@ -50,6 +59,7 @@ $(function() {
 		if (changed) {
 			$quote.removeClass("quote");
 			$quote.addClass("context-1");
+			checkForfeit();
 
 			if (newContextId) {
 				if (newContextId in quoteCache) {
