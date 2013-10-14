@@ -80,6 +80,12 @@ $(function() {
 					}
 				});
 			}
+
+			// Set new twitter link
+			var $quoteLink = $(".quote a"),
+				link = "https://twitter.com/intent/tweet?original_referer=http://qiquotes.com/";
+			link = link + "&text=" + encodeURIComponent($quoteLink.data("short")) + "&url=http://qiquotes.com" + $quoteLink.attr("href");
+			$(".twitter").attr("href", link);
 		}
 	});
 });
