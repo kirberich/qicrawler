@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 	<header>
-		QI quotes - space for new quote, ↑ and ↓ to scroll
+		<span>QI quotes - space for new quote, ↑ and ↓ to scroll</span>
 	</header>
 	<form action="/" method="post">
 		<div class="another">
@@ -24,7 +24,13 @@
 	</form>
 	<footer>
 		<a href="http://qitranscripts.com" target="_blank">Made using episode transcripts from http://qitranscripts.com</a>
-		| &copy; 2013 Robert Kirberich
+		<span> &copy; 2013 Robert Kirberich </span>
+		{% if quote %}
+			<a href="https://twitter.com/intent/tweet?original_referer=http://qiquotes.com/&text={{quote|urlencode}}&url=http://qiquotes.com/{{quote.pk}}/" class="twitter" dote.pk}}/" target="_blank">
+				<img src="https://twitter.com/favicons/favicon.ico" />
+				Tweet this
+			</a>
+		{% endif %}
 	</footer>
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
