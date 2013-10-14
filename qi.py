@@ -11,7 +11,7 @@ except ImportError:
 MINIMUM_WORD_LENGTH = 4
 TAGS_TO_REPLACE_WITH_CONTENT = ['font', 'div', 'i', 'p', 'span']
 TAGS_TO_DELETE = ['script']
-SPEAKERS_TO_REMOVE = ['viewscreens', 'transcript']
+SPEAKERS_TO_REMOVE = ['viewscreens', 'transcript', 'transcript by:', 'edited by', 'notes', 'with thanks to:']
 CONTENT_STRINGS_TO_REPLACE = [
     ("\n", " "),
     (u"\xa0", " "),
@@ -70,6 +70,11 @@ def parse_episode(episode, search_index=None):
 
     for tag in TAGS_TO_REPLACE_WITH_CONTENT:
         for match in content.findAll(tag):
+            try:
+                style = match['style']
+            except:
+                style = ''
+            if 'font-weight:bold' in style: continue
             match.replaceWithChildren()
     for tag in TAGS_TO_DELETE:
         [s.extract() for s in content('script')]
