@@ -6,11 +6,19 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.cache import cache
 from django.utils import simplejson
+from django.views.decorators.cache import cache_page
 
 import _qi as qi
 from core.models import Speaker, Episode, Quote
 
-def main(request, quote_id):
+def main(request):
+    return _quote(request, None)
+
+@cache_page(60*60*24)
+def quote(request, quote_id):
+    return _quote(request, quote_id)
+
+def _quote(request, quote_id):
     to_search = request.GET.get('search') or request.POST.get('search')
     response = 'raw' if request.GET.get('response') == 'raw' else 'html'
 
@@ -23,13 +31,20 @@ def main(request, quote_id):
         search_list = to_search.split(" ")
         quotes = Quote.objects.all()
         for term in search_list:
-            quotes = quotes.filter(text__icontains=term)
+            if term.startswith("-who:"):
+                quotes = quotes.exclude(speaker__full_name__icontains=term[5:])
+            elif term.startswith("who:"):
+                quotes = quotes.filter(speaker__full_name__icontains=term[4:])
+            elif term.startswith("-"):
+                quotes = quotes.exclude(text__icontains=term[1:])
+            else:
+                quotes = quotes.filter(text__icontains=term)
         quote = quotes[random.randint(0, len(quotes)-1)] if len(quotes) else None
     else:
         num_quotes = cache.get('num_quotes')
         if not num_quotes:
             num_quotes = Quote.objects.all().count()
-            cache.set('num_quotes', num_quotes, 60*10)
+            cache.set('num_quotes', num_quotes, 60*60*24*7)
         quote = Quote.objects.all()[random.randint(0, num_quotes-1)]
 
     subs = {

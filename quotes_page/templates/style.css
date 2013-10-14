@@ -17,12 +17,23 @@ a {
 }
 
 header, footer {
-	font-size: 8pt;
 	background-color: white;
 	color: rgba(100, 100, 100, 0.5);
 }
 header {
+	font-size: 10pt;
 	padding-top: 5px;
+}
+footer {
+	font-size: 8pt;
+}
+footer span, footer img, footer a {
+	vertical-align: middle;
+}
+footer img {
+	border: 0;
+	position: relative;
+	top: -1px;
 }
 footer {
 	width: 100%;
@@ -78,7 +89,6 @@ img {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	transition: opacity 2s;
 }
 
 .context-2 {
