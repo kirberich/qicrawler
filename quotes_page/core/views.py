@@ -31,7 +31,14 @@ def _quote(request, quote_id):
         search_list = to_search.split(" ")
         quotes = Quote.objects.all()
         for term in search_list:
-            quotes = quotes.filter(text__icontains=term)
+            if term.startswith("-who:"):
+                quotes = quotes.exclude(speaker__full_name__icontains=term[5:])
+            elif term.startswith("who:"):
+                quotes = quotes.filter(speaker__full_name__icontains=term[4:])
+            elif term.startswith("-"):
+                quotes = quotes.exclude(text__icontains=term[1:])
+            else:
+                quotes = quotes.filter(text__icontains=term)
         quote = quotes[random.randint(0, len(quotes)-1)] if len(quotes) else None
     else:
         num_quotes = cache.get('num_quotes')
