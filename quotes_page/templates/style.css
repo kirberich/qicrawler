@@ -78,7 +78,6 @@ img {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	transition: opacity 2s;
 }
 
 .context-2 {
