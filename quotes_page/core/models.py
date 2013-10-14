@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.cache import cache
 
 class Speaker(models.Model):
     name = models.CharField(max_length=255)
@@ -49,6 +50,9 @@ class Quote(models.Model):
     next = models.ForeignKey('self', blank=True, null=True, related_name="previous_set")
     
     def get_previous(self, limit):
+        cached = cache.get('quote_previous_%s_%s' % (limit, self.pk))
+        if cached:
+            return cached
         results = []
         item = self.previous
         item_number = 0
@@ -57,9 +61,13 @@ class Quote(models.Model):
             item_number += 1
             item = item.previous
         results.reverse()
+        cache.set('quote_previous_%s_%s' % (limit, self.pk), results, 600000)
         return results
 
     def get_next(self, limit):
+        cached = cache.get('quote_next_%s_%s' % (limit, self.pk))
+        if cached:
+            return cached
         results = []
         item = self.next
         item_number = 0
@@ -67,6 +75,7 @@ class Quote(models.Model):
             results.append(item)
             item_number += 1
             item = item.next
+        cache.set('quote_previous_%s_%s' % (limit, self.pk), results, 600000)
         return results
     
     def __repr__(self):
