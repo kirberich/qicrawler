@@ -75,7 +75,7 @@ class Quote(models.Model):
             results.append(item)
             item_number += 1
             item = item.next
-        cache.set('quote_previous_%s_%s' % (limit, self.pk), results, 600000)
+        cache.set('quote_next_%s_%s' % (limit, self.pk), results, 600000)
         return results
     
     def __repr__(self):
