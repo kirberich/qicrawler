@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.cache import cache
-from django.utils import simplejson
+from django.utils import simplejson as json
 from django.views.decorators.cache import cache_page
 
 import _qi as qi
@@ -20,7 +20,7 @@ def quote(request, quote_id):
 
 def _quote(request, quote_id):
     to_search = request.GET.get('search') or request.POST.get('search')
-    response = 'raw' if request.GET.get('response') == 'raw' else 'html'
+    response = request.GET.get('response', 'html')
 
     if quote_id:
         try:
@@ -58,6 +58,16 @@ def _quote(request, quote_id):
     if response == 'raw':
         subs['raw'] = True
         return render_to_response('quote.html', subs, context_instance=RequestContext(request))
+    elif response == 'json':
+        data = json.dumps({
+            'quote_text': quote.text.strip(),
+            'speaker': quote.speaker.name,
+            'speaker_full': quote.speaker.full_name,
+            'next': 'http://qiquotes.com/%s' % quote.next.pk,
+            'previous': 'http://qiquotes.com/%s' % quote.previous.pk,
+            'link': 'http://qiquotes.com/%s' % quote.pk
+        })
+        return HttpResponse(data, mimetype='application/json')
     else:
         return render_to_response('main.html', subs, context_instance=RequestContext(request))
 
