@@ -8,6 +8,11 @@ body {
 	transition: background 0.2s;
 }
 
+h2 {
+	margin-top: -25px;
+	font-size: 10pt;
+}
+
 form {
 	padding: 0 10% 20px 10%;
 }
@@ -15,6 +20,12 @@ form {
 a {
 	text-decoration: none;
 	color: rgba(50, 50, 80, 0.8);
+}
+td {
+	vertical-align: top;
+}
+tr:hover {
+	background-color: rgba(200, 200, 200, 0.3);
 }
 header {
 	font-size: 10pt;
@@ -150,4 +161,22 @@ img {
 .stats {
 	margin: 10px;
 	text-align: left;
+}
+.stats-speaker{
+	white-space: nowrap;
+}
+.editing form {
+	padding: 0;
+	margin: 0;
+	width: 90%;
+	display: inline-block;
+}
+.editing input {
+	width: 70%;
+	padding: 5px;
+}
+
+.login-label {
+	width: 100px;
+	display: inline-block;
 }

@@ -1,12 +1,15 @@
 import random
 import time
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.core.cache import cache
 from django.utils import simplejson as json
+from django.views.decorators.http import require_POST
 from django.views.decorators.cache import cache_page
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 
 import _qi as qi
 from core.models import Speaker, Episode, Quote
@@ -116,8 +119,44 @@ def init(request):
 def stats(request):
     subs = {
         'episodes': Episode.objects.all(),
-        'speaker': Speaker.objects.all()
+        'speaker': Speaker.objects.all(),
+        'quote_count': Quote.objects.all().count(),
+        'request': request,
     }
     if 'episode' in request.GET:
         subs['episode'] = Episode.objects.get(pk=request.GET.get('episode'))
     return render_to_response('stats.html', subs, context_instance=RequestContext(request))
+
+
+@login_required
+@require_POST
+def quote_delete(request, quote_id):
+    q = Quote.objects.get(pk=quote_id).delete()
+    return HttpResponse("deleted")
+
+
+@login_required
+@require_POST
+def quote_edit(request, quote_id):
+    text = request.POST['text']
+    q = Quote.objects.get(pk=quote_id)
+    q.text = text 
+    q.save()
+    return HttpResponse("updated")
+
+
+def login_view(request):
+    if request.method == 'POST':
+        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            return render_to_response('login.html', {'error': "Balls."}, context_instance = RequestContext(request))
+    else:
+        return render_to_response('login.html', {"user": request.user}, context_instance = RequestContext(request))
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')

@@ -11,7 +11,7 @@
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
 		<script type="text/javascript">
-		{% include 'main.js' %}
+		{% block js %}{% include 'main.js' %}{% endblock %}
 		</script>
 	</head>
 	<body {% if forfeit %}class="forfeit"{% endif %}>

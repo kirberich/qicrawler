@@ -1,17 +1,12 @@
 from django.conf.urls.defaults import patterns, include, url
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'qi.views.home', name='home'),
-    # url(r'^qi/', include('qi.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'quotes_page.core.views.main', name="main"),
     url(r'^(?P<quote_id>\d+)/?$', 'quotes_page.core.views.quote', name="quote"),
     #url(r'^init/?$', 'quotes_page.core.views.init', name="init"),
     url(r'^stats/?$', 'quotes_page.core.views.stats', name="stats"),
+    (r'^login/?$', 'quotes_page.core.views.login_view'),
+    (r'^logout/?$', 'quotes_page.core.views.logout_view'),
+    (r'^quote_edit/(?P<quote_id>\d+)/?$', 'quotes_page.core.views.quote_edit'),
+    (r'^quote_delete/(?P<quote_id>\d+)/?$', 'quotes_page.core.views.quote_delete'),    
 )

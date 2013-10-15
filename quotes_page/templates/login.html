@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+	<form action="/login/" method="POST">
+		<div class="login-container">
+			<div><span class="login-label">User</span> <input style="height:14pt" type="text" name="username"></div>
+			<div><span class="login-label">Password:</span> <input style="height:14pt" type="password" name="password"></div>
+			<div><span class="login-label"></span><button type="submit" value="login">Login</button></div>
+		</div>
+	<div class="error">{{error}}</div>
+{% endblock %}
