@@ -46,8 +46,8 @@ class Quote(models.Model):
     speaker = models.ForeignKey(Speaker)
     text = models.TextField()
 
-    previous = models.ForeignKey('self', blank=True, null=True, related_name="next_set", on_delete=models.SET_NULL)
-    next = models.ForeignKey('self', blank=True, null=True, related_name="previous_set", on_delete=models.SET_NULL)
+    previous = models.ForeignKey('self', blank=True, null=True, related_name="next_set")
+    next = models.ForeignKey('self', blank=True, null=True, related_name="previous_set")
     
     def get_previous(self, limit):
         cached = cache.get('quote_previous_%s_%s' % (limit, self.pk))

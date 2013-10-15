@@ -131,7 +131,16 @@ def stats(request):
 @login_required
 @require_POST
 def quote_delete(request, quote_id):
-    q = Quote.objects.get(pk=quote_id).delete()
+    q = Quote.objects.get(pk=quote_id)
+    if q.next:
+        next = q.next
+        next.previous = q.previous
+        next.save()
+    if q.previous:
+        previous = q.previous 
+        previous.next = q.next
+        previous.save()
+    q.delete()
     return HttpResponse("deleted")
 
 
